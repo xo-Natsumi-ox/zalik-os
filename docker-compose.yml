@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  app:
+    container_name: app
+    build:
+      context: .
+      dockerfile: "Dockerfile"
+    ports:
+      - 8090:8090
+      - 3306:3306
+    volumes:
+      - /var/lib/docker/volumes/mysql:/var/lib/mysql
+    healthcheck:
+      test: curl -f http://localhost:8090/healthcheck || exit 1
+      start_period: 600s
+      interval: 10s
+      timeout: 10s
+      retries: 6
+
+
